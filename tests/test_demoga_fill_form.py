@@ -1,31 +1,28 @@
-import os
-
-from selene import browser, be, have
+from pages.registration_page import RegistrationPage
 
 
 def test_demoga_fill_form(set_demoga):
-    # browser.open('/automation-practice-form')
+    registration_page = RegistrationPage()
+    registration_page.open()
 
-    # browser.element('#firstName').type('Alesha')
-    # browser.element('#lastName').type('Bigd')
-    # browser.element('#userEmail').click().type('mf666@gmail.com')
-    # browser.all('[name=gender]').element_by(have.value('Male')).element('..').click()
-    # browser.element('#userNumber').type('0123456789')
-    # browser.element('#dateOfBirthInput').click()
-    # browser.element('.react-datepicker__month-select').click().element('option[value="1"]').click()
-    # browser.element('.react-datepicker__year-select').click().element('option[value="1955"]').click()
-    # browser.element('.react-datepicker__day--012').click()
-    # browser.element("#subjectsInput").type("Arts").press_enter()
-    # browser.element('[for="hobbies-checkbox-1"]').click()
-    # browser.element('[for="hobbies-checkbox-2"]').click()
-    # browser.element('#uploadPicture').send_keys(os.path.abspath('../resourses/ava.jpg'))
-    # browser.element('#currentAddress').type('Heaven')
-    # browser.element('#react-select-3-input').type('Uttar Pradesh').press_enter()
-    browser.element('#react-select-4-input').type('Agra').press_enter()
-    browser.element('#submit').execute_script('element.click()')
+    # WHEN
+    registration_page.fill_first_name('Alesha')
+    registration_page.fill_last_name('Bigd')
+    registration_page.fill_email('mf666@gmail.com')
+    registration_page.choose_gender('Male')
+    registration_page.fill_phone_number('0123456789')
+    registration_page.choose_birtday(month='2', year='56', day='012')
+    registration_page.choose_subject('Arts')
+    registration_page.choose_hobby_1()
+    registration_page.choose_hobby_2()
+    registration_page.uppload_picture('ava.jpg')
+    registration_page.fill_current_address('Heaven')
+    registration_page.choose_state('Uttar Pradesh')
+    registration_page.choose_city('Agra')
+    registration_page.submit_form()
 
-    browser.element('.modal-content').should(be.visible)
-    browser.element('.table').all('td:nth-of-type(2)').should(have.texts(
+    # THEN
+    registration_page.should_be_registered_form(
         'Alesha Bigd',
         'mf666@gmail.com',
         'Male',
@@ -35,4 +32,5 @@ def test_demoga_fill_form(set_demoga):
         'Sports, Reading',
         'ava.jpg',
         'Heaven',
-        'Uttar Pradesh Agra'))
+        'Uttar Pradesh Agra'
+    )
